@@ -4,6 +4,8 @@ from flask import Flask, request, redirect, url_for, render_template
 from flask_restful import Api
 from werkzeug import secure_filename
 
+from imagefudge.image_fudge import Fudged
+
 # Initialize Flask
 app = Flask(__name__)
 api = Api(app)
