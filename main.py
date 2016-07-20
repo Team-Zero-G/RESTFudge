@@ -7,12 +7,7 @@ from werkzeug import secure_filename
 from imagefudge.image_fudge import Fudged
 
 from restfudge.utils import allowed_file, guid
-
-# Initialize Flask
-app = Flask(__name__)
-api = Api(app)
-
-app.config['UPLOAD_FOLDER'] = 'data/'
+from restfudge.settings import app, api
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -37,3 +32,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+
