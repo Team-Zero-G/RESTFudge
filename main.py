@@ -28,8 +28,8 @@ def index():
         file = request.files['file']
         if file and allowed_file(file.filename):
             extension = file.filename[file.filename.index('.'):]
-            guid = guid(file.filename)
-            filename = secure_filename(guid + extension)
+            _guid = guid(file.filename)
+            filename = secure_filename(_guid + extension)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('index'))
 
