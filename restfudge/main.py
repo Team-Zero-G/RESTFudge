@@ -2,6 +2,8 @@ from flask import Flask
 from flask_restful import Resource
 
 class RestFudge(Resource):
-    def get(self):
-        result = dict()
-        return result
+    """ RESTful API for ImageFudge """
+
+    def post(self):
+        """ returns a fudged image as specified by request data """
+        pass
