@@ -8,13 +8,13 @@ test its effects using the RESTful API.
 
     make init
 
-## Run
+## Usage
+
+For a local configuration, run
 
     make
 
-## Usage
-
-Point a browser to port `5000` on your local configuration.
+Then point a browser to port `5000`.
 Upload an image file using the web interface.
 The obfuscated url will be shown in the list on the right.
 The part before the file extension is referred to as the `guid`.
