@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+    <link rel='stylesheet' href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel='stylesheet' href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class='container'>
+        <h1>Fudge an Image</h1>
+        <div class='well col-md-5'>
+            <form action='' method='POST enctype=multipart/form-data'>
+                <input type='file' value='Pick a File' />
+                <input type='Submit' value='Submit' />
+            </form>
+        </div>
+    </div>
+</body>
+</html>
