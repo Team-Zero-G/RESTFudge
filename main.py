@@ -20,6 +20,7 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    ''' Handles file uploads and displays uploaded files '''
     # Handle file upload
     if request.method == 'POST':
         file = request.files['file']
