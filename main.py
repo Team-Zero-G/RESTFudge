@@ -6,18 +6,13 @@ from werkzeug import secure_filename
 
 from imagefudge.image_fudge import Fudged
 
+from restfudge.utils import allowed_file, guid
+
 # Initialize Flask
 app = Flask(__name__)
 api = Api(app)
 
-ALLOWED_EXTENSIONS = set(['jpg', 'png'])
 app.config['UPLOAD_FOLDER'] = 'data/'
-
-
-def allowed_file(filename):
-    ''' Returns true if a file is one of the allowed types '''
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -39,11 +34,6 @@ def index():
         data=os.listdir(app.config['UPLOAD_FOLDER'])
     )
 
-
-def guid(filename):
-    ''' Returns an uppercase, 32 bit, hexidecimal guid. '''
-    filename = filename.encode()
-    return str(hashlib.md5(filename).hexdigest()).upper()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
