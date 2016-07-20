@@ -11,27 +11,29 @@
             <h1>RESTFudge</h1>
             <h4>A RESTful web API and UI for ImageFudge</h4>
         </div>
-        <div class='col-md-5'>
-            <h2>Fudge an Image</h2>
-            <div class='well'>
-                <form action='' method='POST' enctype='multipart/form-data'>
-                    <input type='file' name='file' value='Pick a File' />
-                    <input type='submit' value='Upload' class='btn btn-primary' />
-                </form>
+        <div class='row'>
+            <div class='col-md-5'>
+                <h2>Fudge an Image</h2>
+                <div class='well'>
+                    <form action='' method='POST' enctype='multipart/form-data'>
+                        <input type='file' name='file' value='Pick a File' />
+                        <input type='submit' value='Upload' class='btn btn-primary' />
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class='col-md-7'>
-            <h2>Uploaded Images</h2>
-            <div class='well'>
-                <ul>
-                {% if data[0] is defined %}
-                    {% for item in data %}
-                        <li> {{ item }} </li>
-                    {% endfor %}
-                {% else %}
-                    <h4> No uploaded files </h4>
-                {% endif %}
-                </ul>
+            <div class='col-md-7'>
+                <h2>Uploaded Images</h2>
+                <div class='well'>
+                    <ul>
+                    {% if data[0] is defined %}
+                        {% for item in data %}
+                            <li> {{ item }} </li>
+                        {% endfor %}
+                    {% else %}
+                        <h4> No uploaded files </h4>
+                    {% endif %}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
