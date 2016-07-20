@@ -1,4 +1,5 @@
 import os
+import hashlib
 from flask import Flask, request, redirect, url_for, render_template
 from flask_restful import Api
 from werkzeug import secure_filename
@@ -23,7 +24,9 @@ def index():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            extension = file.filename[file.filename.index('.'):]
+            guid = guid(file.filename)
+            filename = secure_filename(guid + extension)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('index'))
 
@@ -33,6 +36,11 @@ def index():
         data=os.listdir(app.config['UPLOAD_FOLDER'])
     )
 
+
+def guid(filename):
+    ''' Returns an uppercase, 32 bit, hexidecimal guid. '''
+    filename = filename.encode()
+    return str(hashlib.md5(filename).hexdigest()).upper()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
