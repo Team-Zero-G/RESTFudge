@@ -21,6 +21,10 @@ The part before the file extension is referred to as the `guid`.
 
 ## API
 
+View an uploaded image
+
+    GET: /<guid>
+
 Add effects to an uploaded image
 
     POST: /<guid>/<imagefudge_effect>
