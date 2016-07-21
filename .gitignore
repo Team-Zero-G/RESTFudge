@@ -4,4 +4,4 @@
 __pycache__/
 htmlcov
 .coverage
-data/*
+restfudge/static/data/*

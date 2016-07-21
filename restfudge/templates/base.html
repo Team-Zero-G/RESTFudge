@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <link rel='stylesheet' href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel='stylesheet' href="{{ url_for('static', filename='css/main.css') }}">
+    <title>RESTfudge</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
