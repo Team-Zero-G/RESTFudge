@@ -26,9 +26,11 @@ def index():
 
     headers = {'Content-Type': 'text/html'}
     # No file. Render index template.
+    files = os.listdir(app.config['UPLOAD_FOLDER'])
+    data = zip(files, [file.split('.')[0] for file in files])
     return make_response(render_template(
         'index.html',
-        data=os.listdir(app.config['UPLOAD_FOLDER'])
+        data=data
     ), 200, headers)
 
 

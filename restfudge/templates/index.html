@@ -2,7 +2,7 @@
 {% block content %}
 <div class='container'>
     <div class='text-center'>
-        <h1>RESTFudge</h1>
+        <h1><a href='' id='restfudge'>RESTFudge</a></h1>
         <h4>A RESTful web API and UI for ImageFudge</h4>
     </div>
     <div class='row'>
@@ -19,9 +19,9 @@
             <h2>Uploaded Images</h2>
             <div class='well'>
                 <ul>
-                {% if data[0] is defined %}
-                    {% for item in data %}
-                        <li> {{ item }} </li>
+                {% if data is defined %}
+                    {% for key, value in data %}
+                        <li> <a href='{{ value }}'>{{ key }} </a></li>
                     {% endfor %}
                 {% else %}
                     <h4> No uploaded files </h4>
