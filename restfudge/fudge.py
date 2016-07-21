@@ -11,7 +11,8 @@ class FudgeMeta(Resource):
             headers = {'Content-Type': 'text/html'}
             return make_response(render_template(
                 'image.html',
-                filename='data/'+filename,
+                filepath='data/'+filename,
+                filename=filename
             ), 200, headers)
         else:
             return redirect(url_for('index'))

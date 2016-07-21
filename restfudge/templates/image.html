@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Image</h1>
-<img src="{{ url_for('static', filename=filename) }}" alt='Fudge Image'></img>
+<div class='content'>
+    <h1>Uploaded Image: {{ filename }}</h1>
+    <img src="{{ url_for('static', filename=filepath) }}" alt='Fudge Image'></img>
+</div>
 {% endblock %}
