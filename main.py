@@ -3,7 +3,7 @@ from flask import request, redirect, url_for, render_template, make_response
 from werkzeug import secure_filename
 from restfudge.utils import allowed_file, guid
 from restfudge.settings import app, api
-from restfudge.fudge import FudgeMeta
+from restfudge.fudge import FudgeMeta, FudgeAPIMeta
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -30,6 +30,7 @@ def index():
 
 
 api.add_resource(FudgeMeta, '/<string:guid>')
+api.add_resource(FudgeAPIMeta, '/<string:guid>/<string:effect>')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
