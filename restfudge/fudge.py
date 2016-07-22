@@ -7,17 +7,25 @@ from restfudge.utils import switch
 from imagefudge.image_fudge import Fudged, FudgeMaker
 
 
+HTML_HEADERS = {'Content-Type': 'text/html'}
+
+
 class FudgeMeta(Resource):
-    """ Handles original images """
+    """ Handles original images.
+    Renders the image page if the image exists.
+    Otherwise redirects back to the index.
+    """
     def get(self, slug):
+        ''' Checks to make sure a slug is valid.
+
+        '''
         if is_valid(slug):
             filename = get_file_from_slug(slug)
-            headers = {'Content-Type': 'text/html'}
             return make_response(render_template(
                 'image.html',
-                filepath='data/'+filename,
+                filepath='data/{}'.format(filename),
                 filename=filename
-            ), 200, headers)
+            ), 200, HTML_HEADERS)
         else:
             return redirect(url_for('index'))
 
@@ -30,12 +38,11 @@ class FudgeAPIMeta(Resource):
         if is_valid(slug) and effect is not None:
             filename = get_file_from_slug(slug, effect)
             if filename is not None:
-                headers = {'Content-Type': 'text/html'}
                 return make_response(render_template(
                     'image.html',
                     filepath='data/{}'.format(filename),
                     filename=filename
-                ), 200, headers)
+                ), 200, HTML_HEADERS)
         return redirect(url_for('index'))
 
     def post(self, slug, effect):
@@ -52,12 +59,11 @@ class FudgeAPIMeta(Resource):
             fudged = self._fudge(filename, effect, args)
             fudged.save('{}{}'.format(app.config['UPLOAD_FOLDER'], new_filename))
             filename = new_filename
-        headers = {'Content-Type': 'text/html'}
         return make_response(render_template(
             'image.html',
             filepath='data/{}'.format(new_filename),
             filename=filename
-        ), 200, headers)
+        ), 200, HTML_HEADERS)
 
     def _fudge(self, filename, effect, kwargs):
         f = FudgeMaker(filename)
