@@ -35,4 +35,4 @@ View an image after effects have been applied
 
 ### Supported ImageFudge Effects
 
-*None Yet*
+    get_relative_arcs
