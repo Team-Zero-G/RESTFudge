@@ -21,11 +21,7 @@ class FudgeMeta(Resource):
         '''
         if is_valid(slug):
             filename = get_file_from_slug(slug)
-            return make_response(render_template(
-                'image.html',
-                filepath='data/{}'.format(filename),
-                filename=filename
-            ), 200, HTML_HEADERS)
+            return render_image(filename)
         else:
             return redirect(url_for('index'))
 
@@ -38,11 +34,7 @@ class FudgeAPIMeta(Resource):
         if is_valid(slug) and effect is not None:
             filename = get_file_from_slug(slug, effect)
             if filename is not None:
-                return make_response(render_template(
-                    'image.html',
-                    filepath='data/{}'.format(filename),
-                    filename=filename
-                ), 200, HTML_HEADERS)
+                return render_image(filename)
         return redirect(url_for('index'))
 
     def post(self, slug, effect):
@@ -59,11 +51,7 @@ class FudgeAPIMeta(Resource):
             fudged = self._fudge(filename, effect, args)
             fudged.save('{}{}'.format(app.config['UPLOAD_FOLDER'], new_filename))
             filename = new_filename
-        return make_response(render_template(
-            'image.html',
-            filepath='data/{}'.format(new_filename),
-            filename=filename
-        ), 200, HTML_HEADERS)
+        return render_image(filename)
 
     def _fudge(self, filename, effect, kwargs):
         f = FudgeMaker(filename)
@@ -77,6 +65,17 @@ class FudgeAPIMeta(Resource):
                 f.fuzzy(magnitude=int(kwargs['magnitude']))
                 break
         return f
+
+
+def render_image(filename):
+    ''' Renders the image in the html
+    template using the given filename.
+    '''
+    return make_response(render_template(
+        'image.html',
+        filepath='data/{}'.format(filename),
+        filename=filename
+    ), 200, HTML_HEADERS)
 
 
 def get_file_from_slug(slug, effect=None):
