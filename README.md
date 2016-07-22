@@ -17,21 +17,21 @@ For a local configuration, run
 Then point a browser to port `5000`.
 Upload an image file using the web interface.
 The obfuscated url will be shown in the list on the right.
-The part before the file extension is referred to as the `guid`.
+The part before the file extension is referred to as the `slug`.
 
 ## API
 
 View an uploaded image
 
-    GET: /<guid>
+    GET: /<slug>
 
 Add effects to an uploaded image
 
-    POST: /<guid>/<imagefudge_effect>
+    POST: /<slug>/<imagefudge_effect>
 
 View an image after effects have been applied
 
-    GET: /<guid>/<imagefudge_effect>
+    GET: /<slug>/<imagefudge_effect>
 
 ### Supported ImageFudge Effects
 

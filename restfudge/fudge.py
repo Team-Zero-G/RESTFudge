@@ -1,16 +1,17 @@
 import os
-from flask import redirect, url_for, render_template, make_response
+from flask import request, redirect, url_for, render_template, make_response
 from flask_restful import Resource
 from restfudge.settings import app
+from restfudge.utils import switch
 
-from imagefudge.image_fudge import Fudged
+from imagefudge.image_fudge import Fudged, FudgeMaker
 
 
 class FudgeMeta(Resource):
     """ Handles original images """
-    def get(self, guid):
-        if is_valid(guid):
-            filename = get_file_from_guid(guid)
+    def get(self, slug):
+        if is_valid(slug):
+            filename = get_file_from_slug(slug)
             headers = {'Content-Type': 'text/html'}
             return make_response(render_template(
                 'image.html',
@@ -22,12 +23,12 @@ class FudgeMeta(Resource):
 
 
 class FudgeAPIMeta(Resource):
-    def get(self, guid, effect):
+    def get(self, slug, effect):
         ''' Returns an image if the particular effect has been applied.
         Otherwise redirects to the index page.
         '''
-        if is_valid(guid) and effect is not None:
-            filename = get_file_from_guid(guid, effect)
+        if is_valid(slug) and effect is not None:
+            filename = get_file_from_slug(slug, effect)
             if filename is not None:
                 headers = {'Content-Type': 'text/html'}
                 return make_response(render_template(
@@ -37,17 +38,19 @@ class FudgeAPIMeta(Resource):
                 ), 200, headers)
         return redirect(url_for('index'))
 
-    def post(self, guid, effect):
+    def post(self, slug, effect):
         ''' Applies an effect on an image '''
-        if is_valid(guid) and effect is not None:
-            filename = get_file_from_guid(guid)
+        if is_valid(slug) and effect is not None:
+            filename = get_file_from_slug(slug)
             ext = filename.split('.')[1]
-            new_filename = '{guid}_{effect}.{extension}'
-            new_filename = new_filename.format(filename=guid,
+            filename = "{}{}".format(app.config['UPLOAD_FOLDER'], filename)
+            new_filename = '{slug}_{effect}.{ext}'
+            new_filename = new_filename.format(slug=slug,
                                                effect=effect,
-                                               extension=ext)
-            fudged = self._fudge(filename, effect)
-            fudged.save('data/{}'.format(new_filename))
+                                               ext=ext)
+            args = { i:j for i,j in request.form.items() }
+            fudged = self._fudge(filename, effect, args)
+            fudged.save('{}{}'.format(app.config['UPLOAD_FOLDER'], new_filename))
             filename = new_filename
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template(
@@ -57,39 +60,39 @@ class FudgeAPIMeta(Resource):
         ), 200, headers)
 
     def _fudge(self, filename, effect, kwargs):
-        if is_supported(effect):
-            f = Fudged(filename)
-            # Is this terrible practice?
-            f.__dict__[effect](kwargs)
-            return f
+        f = FudgeMaker(filename)
+        for case in switch(effect):
+            if case('draw_relative_arcs'):
+                f.draw_relative_arcs(origins=kwargs['origins'],
+                                     endpoints=kwargs['endpoints'],
+                                     arclen=kwargs['arclen'])
+                break
+            elif case('fuzzy'):
+                f.fuzzy(magnitude=int(kwargs['magnitude']))
+                break
+        return f
 
 
-def is_supported(effect):
-    return effect in [
-        "draw_relative_arcs",
-    ]
-
-
-def get_file_from_guid(guid, effect=None):
-    ''' Returns a file based on its guid '''
+def get_file_from_slug(slug, effect=None):
+    ''' Returns a file based on its slug '''
     files = os.listdir(app.config['UPLOAD_FOLDER'])
     if effect is None:
-        search = guid
+        search = slug
     else:
-        search = "{}_{}".format(guid, effect)
+        search = "{}_{}".format(slug, effect)
     return next(filter(lambda x: search in x, files)) or None
 
 
-def is_valid(guid):
-    ''' Determines if a guid is valid.
+def is_valid(slug):
+    ''' Determines if a slug is valid.
     Length should be 32.
     Alpha chars should be all caps.
     File with that name should exist in upload folder.
     '''
-    if len(guid) is not 32:
+    if len(slug) is not 32:
         return False
-    if guid.upper() != guid:
+    if slug.upper() != slug:
         return False
 
     files = os.listdir(app.config['UPLOAD_FOLDER'])
-    return True in list(True for filename in files if guid in filename)
+    return True in list(True for filename in files if slug in filename)

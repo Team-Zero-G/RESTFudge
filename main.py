@@ -1,7 +1,7 @@
 import os
 from flask import request, redirect, url_for, render_template, make_response
 from werkzeug import secure_filename
-from restfudge.utils import allowed_file, guid
+from restfudge.utils import allowed_file, slug
 from restfudge.settings import app, api
 from restfudge.fudge import FudgeMeta, FudgeAPIMeta
 
@@ -14,8 +14,8 @@ def index():
         file = request.files['file']
         if file and allowed_file(file.filename):
             extension = file.filename[file.filename.index('.'):]
-            _guid = guid(file.filename)
-            filename = secure_filename(_guid + extension)
+            _slug = slug(file.filename)
+            filename = secure_filename(_slug + extension)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('index'))
 
@@ -29,8 +29,8 @@ def index():
     ), 200, headers)
 
 
-api.add_resource(FudgeMeta, '/<string:guid>')
-api.add_resource(FudgeAPIMeta, '/<string:guid>/<string:effect>')
+api.add_resource(FudgeMeta, '/<string:slug>')
+api.add_resource(FudgeAPIMeta, '/<string:slug>/<string:effect>')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
