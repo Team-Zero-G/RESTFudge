@@ -62,7 +62,7 @@ class FudgeAPIMeta(Resource):
                                      arclen=kwargs['arclen'])
                 break
             elif case('fuzzy'):
-                f.fuzzy(magnitude=int(kwargs['magnitude']))
+                f.fuzzy(int(kwargs['magnitude']))
                 break
         return f
 
