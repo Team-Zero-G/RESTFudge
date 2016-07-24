@@ -32,5 +32,9 @@ def index():
 api.add_resource(FudgeMeta, '/<string:slug>')
 api.add_resource(FudgeAPIMeta, '/<string:slug>/<string:effect>')
 
+def run(debug=False):
+    app.run(host='0.0.0.0', debug=debug)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    run()
