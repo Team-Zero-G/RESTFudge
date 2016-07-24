@@ -36,3 +36,4 @@ View an image after effects have been applied
 ### Supported ImageFudge Effects
 
     get_relative_arcs
+    fuzzy
