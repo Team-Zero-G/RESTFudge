@@ -18,6 +18,8 @@ class FudgeMeta(Resource):
     def get(self, slug):
         ''' Checks to make sure a slug is valid.
 
+        Finds the file with the corresponding slug and renders it.
+        Otherwise redirects to index.
         '''
         if is_valid(slug):
             filename = get_file_from_slug(slug)
@@ -27,6 +29,7 @@ class FudgeMeta(Resource):
 
 
 class FudgeAPIMeta(Resource):
+
     def get(self, slug, effect):
         ''' Returns an image if the particular effect has been applied.
         Otherwise redirects to the index page.
@@ -54,6 +57,7 @@ class FudgeAPIMeta(Resource):
         return render_image(filename)
 
     def _fudge(self, filename, effect, kwargs):
+        ''' Applies the specified effect to the file with the given kwargs '''
         f = FudgeMaker(filename)
         for case in switch(effect):
             if case('draw_relative_arcs'):
