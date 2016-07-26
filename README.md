@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/konstantinfarrell/RESTFudge.svg?branch=master)](https://travis-ci.org/konstantinfarrell/RESTFudge)
+
 # RESTFudge
 
 A simple RESTful API for ImageFudge that allows users to upload
