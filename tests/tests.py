@@ -1,3 +1,4 @@
+import flask
 import os
 import signal
 import subprocess
@@ -21,6 +22,9 @@ class TestFudgeMeta(TestCase):
     def test_slug(self):
         self.assertEqual(len(self.slug), 32)
 
+    def test_get(self):
+        with app.test_request_context('/{}'.format(self.slug)):
+            self.assertEqual(self.slug, request.view_args['slug'])
+
 if __name__ == '__main__':
-    run(debug=True)
     unittest.main()
