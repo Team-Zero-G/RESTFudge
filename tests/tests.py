@@ -26,11 +26,9 @@ class TestFudgeMeta(TestCase):
     def test_slug(self):
         self.assertEqual(len(self.slug), 32)
 
-    """
     def test_get(self):
         result = self.client.get('/{}'.format(self.slug))
         print(result.__dir__())
-    """
 
 if __name__ == '__main__':
     unittest.main()
