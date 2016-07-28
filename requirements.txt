@@ -4,7 +4,8 @@ coverage==4.1
 flake8==2.6.2
 Flask==0.11.1
 Flask-RESTful==0.3.5
--e git://github.com/konstantinfarrell/ImageFudge.git@master#egg=ImageFudge
+Flask-Testing==0.5.0
+-e git://github.com/konstantinfarrell/ImageFudge.git@efe59f243427ea60b238932e56105ce08f0b1a97#egg=ImageFudge
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
