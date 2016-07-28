@@ -31,8 +31,8 @@ travis-coverage:
 
 coverage:
 	clear
-	$(VENV_DIR)/bin/coverage run -m unittest discover
-	$(VENV_DIR)/bin/coverage html
+	$(VENV_DIR)/bin/$(PYTHON) -m coverage run -m unittest discover
+	$(VENV_DIR)/bin/$(PYTHON) -m coverage report -m
 
 pep8:
 	clear
