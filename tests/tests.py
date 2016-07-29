@@ -17,7 +17,7 @@ class TestFudgeMeta(TestCase):
     def create_app(self):
         app = Flask(__name__)
         app.config['TESTING'] = True
-        return app 
+        return app
 
     def setUp(self):
         self.image = TEST_IMAGE
@@ -26,9 +26,10 @@ class TestFudgeMeta(TestCase):
     def test_slug(self):
         self.assertEqual(len(self.slug), 32)
 
-    def test_get(self):
+    def test_get_nonexistant_image(self):
         result = self.client.get('/{}'.format(self.slug))
-        print(result.__dir__())
+        self.assertEqual(result.status_code, 404)
+
 
 if __name__ == '__main__':
     unittest.main()
