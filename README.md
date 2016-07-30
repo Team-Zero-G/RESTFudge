@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/konstantinfarrell/RESTFudge.svg?branch=master)](https://travis-ci.org/konstantinfarrell/RESTFudge)
+[![Coverage Status](https://coveralls.io/repos/github/konstantinfarrell/RESTFudge/badge.svg?branch=master)](https://coveralls.io/github/konstantinfarrell/RESTFudge?branch=master)
 
 # RESTFudge
 
